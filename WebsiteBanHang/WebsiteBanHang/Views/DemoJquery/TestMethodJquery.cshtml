@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "TestMethodJquery";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+    <div class="abc">
+        <input type="text" class="test" data-GiaTri="123456"/>
+        <input type="button" value="Xuất thông báo" id="btnXuatThongBao" />
+    </div>
+
+
+<script>
+    $("#btnXuatThongBao").click(function () {
+        var noiDung = $(".abc").find(".test").attr("data-GiaTri");
+        alert(noiDung);
+    });
+    //$("body").delegate("#btnXuatThongBao","click",function () {
+    //    var noiDung = $(".test").val();
+    //    alert(noiDung);
+    //});
+    //$("body").on("click", "#btnXuatThongBao", function () {
+    //    var noiDung = $(".test").val();
+    //    alert(noiDung);
+    //});
+</script>

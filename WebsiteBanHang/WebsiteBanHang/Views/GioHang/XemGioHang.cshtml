@@ -1,0 +1,134 @@
+﻿@using WebsiteBanHang.Models;
+@model List<ItemGioHang>
+
+@{
+    ViewBag.Title = "XemGioHang";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+@if (Model.Count == 0)
+{
+    <h2>Giỏ hàng rỗng!</h2>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Mã SP</th>
+                <th scope="col">Tên SP</th>
+                <th scope="col">Hình Ảnh</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Thành tiền</th>
+                <th scope="col"></th>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaSP</td>
+                <td>@item.TenSP</td>
+                <td><img src="~/Content/images/@item.HinhAnh" style="width:50px;height:50px;" /></td>
+                <td>@item.SoLuong</td>
+                <td>@item.DonGia</td>
+                <td>@item.ThanhTien</td>
+                <td style="">
+                    @Html.ActionLink("Sửa", "SuaGioHang", new { @MaSP = item.MaSP }, new { @class = "SuaTT" })
+                    @Html.ActionLink("Xóa", "XoaGioHang", new { @MaSP = item.MaSP })
+                </td>
+            </tr>
+        }
+    </table>
+
+    using (Html.BeginForm("DatHang", "GioHang"))
+    {
+        if (Session["TaiKhoan"] == null)
+        {
+            <h3 style="text-align:center;color:red;">Thông tin cá nhân</h3>
+            <div class="col-md-6 register-top-grid" style="margin:10px auto;">
+                <div>
+                    <span>Họ tên</span>
+                    @Html.TextBox("TenKH")
+                    <p id="tb_TenKH"></p>
+                </div>
+                <div>
+                    <span>Địa chỉ</span>
+                    @Html.TextBox("DiaChi")
+                    <p id="tb_DiaChi"></p>
+                </div>
+            </div>
+            <div class="col-md-6 register-top-grid" style="margin:10px auto;">
+                <div>
+                    <span>Email</span>
+                    @Html.TextBox("Email")
+                    <p id="tb_Email"></p>
+                </div>
+                <div>
+                    <span>Số điện thoại</span>
+                    @Html.TextBox("SoDienThoai")
+                    <p id="tb_SoDienThoai"></p>
+                </div>
+            </div>
+        }
+        <div style="float:right;padding-right:10px;">
+            <input type="submit" value="Đặt hàng" id="btnDatHang" />
+            @Html.ActionLink("Mua tiếp", "Index", "Home", new { }, new { @class = "btn btn-success" })
+        </div>
+    }
+}
+
+<style>
+    #btnDatHang {
+        display: inline-block;
+        margin-bottom: 0;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background: #FF0156;
+        color: #ffff;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+        #btnDatHang:hover {
+            background: #DC0A50;
+        }
+</style>
+
+<script>
+    $("#btnDatHang").click(function () {
+        var loi = 0;
+
+        if ($("#TenKH").val() == "") {
+            $("#tb_TenKH").text("Tên không được bỏ trống");
+            loi++;
+        }
+        else {
+            $("#tb_TenKH").text("");
+        }
+
+        if ($("#DiaChi").val() == "") {
+            $("#tb_DiaChi").text("địa chỉ không được bỏ trống");
+            loi++;
+        }
+        else {
+            $("#tb_DiaChi").text("");
+        }
+
+        if (loi != 0) {
+            return false;
+        }
+    });
+</script>
+

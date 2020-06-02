@@ -1,0 +1,19 @@
+﻿@using WebsiteBanHang.Models;
+@model IEnumerable<SanPham>
+
+<div class="grid-in">
+    @foreach (var item in Model.Take(3))
+    {
+        <div class="col-md-4 grid-top">
+            <a href="@Url.RouteUrl("XemChiTiet",new {@id=item.MaSP,@tensp=item.TenSP })" class="b-link-stripe b-animate-go  thickbox">
+                <img class="img-responsive" src="~/Content/images/@item.HinhAnh">
+                <div class="b-wrapper">
+                    <h3 class="b-animate b-from-left    b-delay03 " style="text-align:left;padding:5px 5px;line-height:25px">
+                        @Html.Raw(item.CauHinh)
+                    </h3>
+                </div>
+            </a>
+            <p><a href="#">@item.TenSP</a></p>
+        </div>
+    }
+</div>

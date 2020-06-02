@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "DemoLogin";
+    Layout = "~/Views/Layout/HomeLayout.cshtml";
+}
+<link href="~/Content/cssLogin/style_Login.css" rel="stylesheet" />
+<div style="height:500px; margin:10px 0 0 0">
+    <input type="button" value="Đăng nhập"  id="btnDangNhap" style="background:#1F85DE; font-size:15px; color:#ffff;border:none;"/>
+    <div id="popup_login">
+        <div class="login-form" style="height:380px">
+            <div style="clear:both;text-align:right;">
+                <span id="close_form" class="btn btn-danger">X</span>
+            </div>
+            <h2>Đăng nhập</h2>
+            <div class="form-info">
+                <form>
+                    <input type="text" class="email" placeholder="Tài Khoản" required="" />
+                    <input type="password" class="password" placeholder="Mật Khẩu" required="" />
+                    <p><a href="#">Quên tài khoản?</a></p>
+                    <ul class="login-buttons">
+                        <li><input type="submit" value="Đăng Nhập" /></li>
+                        <li><a href="#" class="hvr-sweep-to-left">Đăng ký</a></li>
+                        
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //hiển thị
+    $("#btnDangNhap").click(function () {
+        $("#popup_login").show();
+    })
+    //đóng
+    $("#close_form").click(function () {
+        $("#popup_login").hide();
+    })
+</script>
+

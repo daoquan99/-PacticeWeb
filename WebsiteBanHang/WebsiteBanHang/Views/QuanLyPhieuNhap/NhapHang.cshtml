@@ -1,0 +1,114 @@
+﻿@using WebsiteBanHang.Models;
+@model PhieuNhap
+
+@{
+    ViewBag.Title = "NhapHang";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+
+
+@{ IEnumerable<NhaCungCap> lstNCC = ViewBag.MaNCC as IEnumerable<NhaCungCap>; }
+
+@using (Html.BeginForm(""))
+{
+    <div class="col-md-12" style="margin:10px auto;">
+        <table style="margin:10px auto;" id="ThongTinPhieuNhap">
+            <tr>
+                <td><span>Nhà cung cấp:</span></td>
+                <td >
+                    <select name="MaNCC" class="MaNCC" style="background:#ffff;width:250px;height:30px;border-radius:2px;">
+                        @foreach (var item in lstNCC)
+                        {
+                            <option value="@item.MaNCC"> @item.TenNCC </option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><span>Ngày nhập:</span></td>
+                <td><input type="date" name="NgayNhap" style="width:250px;font-size:15px" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-12" style="margin:20px 0;">
+        <table class="table table-condensed tblChiTietPhieuNhap" style="margin:20px;">
+            @{ IEnumerable<SanPham> lstSanPham = ViewBag.ListSP as IEnumerable<SanPham>; }
+            <tr class="trAppend" style="display:none;">
+                <td>
+                    <select name="" class="ddlSanPham" style="background:#ffff;width:250px;height:30px;border-radius:2px;">
+                        @foreach (var item in lstSanPham)
+                        {
+                            <option value="@item.MaSP">
+                                @item.TenSP
+                            </option>
+                        }
+                    </select>
+                </td>
+                <td><input name="" value="0" class="txtSoLuongNhap" /></td>
+                <td><input name="" value="0" class="txtDonGiaNhap" /></td>
+                <td><span class="btn btn-danger btnDelete">-</span></td>
+            </tr>
+            <tr class="trFirstChild" data-id="-1">
+                <td>Sản phẩm</td>
+                <td>Số lượng nhập</td>
+                <td>Đơn giá nhập</td>
+            </tr>
+        </table>
+
+        <div style="margin-left:30px;">
+            <input type="button" value="+" class="btn btn-success" id="btnAdd" />
+            <input type="submit" value="Nhập hàng" class="btn btn-primary" id="btnNhapHang" />
+        </div>
+    </div>
+}
+<script>
+    //add thẻ nội dung thẻ tr để nhập sp
+
+    $("#btnAdd").click(function () {
+        var id_cuoi = $(".tblChiTietPhieuNhap").find("tr:last-child").attr("data-id");
+        i = parseInt(id_cuoi) + 1;
+        var tdNoiDung = $(".trAppend").html();
+
+        var trNoiDung = "<tr class=\"trAppended\" data-id=\" " + i + "\">" + tdNoiDung + " </tr>";
+
+        $(".tblChiTietPhieuNhap").append(trNoiDung);
+        loadIDLenThe();
+    });
+
+    function loadIDLenThe() {
+        $(".trAppended").each(function () {
+            var id = $(this).attr("data-id");
+            var nameMaSanPham = "[" + id + "].MaSP";
+            var nameSoLuongNhap = "[" + id + "].SoLuongNhap";
+            var nameDonGiaNhap = "[" + id + "].DonGiaNhap";
+            $(this).find(".ddlSanPham").prop("name", nameMaSanPham);
+            $(this).find(".txtSoLuongNhap").prop("name", nameSoLuongNhap);
+            $(this).find(".txtDonGiaNhap").attr("name", nameDonGiaNhap);
+        });
+    };
+
+    function CapNhapID() {
+        var id_cuoi = $(".tblChiTietPhieuNhap").find(".trFirstChild").attr("data-id");
+        i = parseInt(id_cuoi) + 1;
+
+        $(".trAppended").each(function () {
+            var id = i;
+            $(this).attr("data-id", i);
+
+            var nameMaSanPham = "[" + id + "].MaSP";
+            var nameSoLuongNhap = "[" + id + "].SoLuongNhap";
+            var nameDonGiaNhap = "[" + id + "].DonGiaNhap";
+            $(this).find(".ddlSanPham").prop("name", nameMaSanPham);
+            $(this).find(".txtSoLuongNhap").prop("name", nameSoLuongNhap);
+            $(this).find(".txtDonGiaNhap").attr("name", nameDonGiaNhap);
+            i++;
+        });
+    };
+
+    //Xóa thẻ 
+    $("body").on("click", ".btnDelete", function () {
+        $(this).closest(".trAppended").remove();
+        CapNhapID();
+    });
+</script>
+

@@ -1,0 +1,81 @@
+﻿@using WebsiteBanHang.Models;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<SanPham>
+
+@{
+    ViewBag.Title = "KQTimKiem";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+@*form tìm kiếm ajax*@
+
+@using(Ajax.BeginForm("KQTimKiemPartial", "TimKiem", new AjaxOptions{ UpdateTargetId = "KQTimKiem",InsertionMode=InsertionMode.ReplaceWith }))
+{
+    <div class="">
+        <input type="text" id="txtTimKiem" name="sTuKhoa" placeholder="Nhập tên sản phẩm cần tìm kiếm ........." />
+        <input type="submit" id="btnTimKiem" value="Tìm kiếm" />
+    </div>
+}
+<div style="clear:both;"></div>
+<div id="KQTimKiem" style="margin-top:20px">
+    <div class=" bottom-product">
+        @foreach (var item in Model.OrderBy(x => x.DonGia))
+        {
+            <div class="col-md-4 bottom-cd simpleCart_shelfItem" style="margin:10px 0">
+                <div class="product-at ">
+                    <a href="single.html">
+                        <img class="img-responsive" src="~/Content/images/@item.HinhAnh" alt="" style="width:100%;height:250px">
+                        <div class="pro-grid">
+                            <span class="buy-in">Mua hàng</span>
+                        </div>
+                    </a>
+                </div>
+                <p class="tun">@item.TenSP</p>
+                <a href="@Url.Action("ThemGioHang", "GioHang", new { @MaSP = item.MaSP, @strURL = Request.Url.ToString() })" class="item_add"><p class="number item_price"><i></i>@item.DonGia.Value.ToString("#,##") vnđ</p></a>
+                @*Thêm giỏ hàng theo Ajax*@
+                @Ajax.ActionLink("Thêm giỏ hàng Ajax", "ThemGioHangAjax", "GioHang", new { @MaSP = item.MaSP, @strURL = Request.Url.ToString() }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "divGioHang", InsertionMode = InsertionMode.Replace }, null)
+            </div>
+        }
+        <div class="clearfix"> </div>
+    </div>
+    <div class="dlink" style="text-align:center;">
+        Trang @(Model.PageCount<Model.PageNumber? 0 : Model.PageNumber)/@Model.PageCount
+        @Html.PagedListPager(Model, Page => Url.Action("KQTimKiem", new { page = Page, @sTuKhoa = ViewBag.TuKhoa }))
+    </div>
+</div>
+
+
+
+<style>
+    #btnTimKiem {
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        border: 1px solid #c7c7c7;
+        outline: none;
+        top: 0px;
+        background: #c7c7c7;
+        font-size: 1.2em;
+        color: #000;
+        padding: 3px;
+        font-weight: 700;
+    }
+
+    #btnTimKiem:hover {
+            background: #DE701F;
+            border: 1px solid #DE701F;
+        }
+
+    #txtTimKiem {
+        margin: 0 10px;
+        outline: none;
+        padding: 3px 15px;
+        background: none;
+        border: 1px solid black;
+        border-radius: 2px;
+        width: 50%;
+        font-size: 1.2em;
+        color: #000;
+        font-weight: 700;
+    }
+</style>

@@ -1,0 +1,63 @@
+﻿@using WebsiteBanHang.Models;
+@model IEnumerable<SanPham>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+
+    WebGrid grid = new WebGrid(source: Model, rowsPerPage: 5);
+}
+    <div style="margin:20px 0;">
+        @Html.ActionLink("Tạo sản phẩm mới", "TaoMoi", "", new { id = "linkTaoSPMoi" })
+    </div>
+
+@grid.GetHtml(
+    tableStyle: "divTable",
+    headerStyle: "gridHeader",
+    footerStyle: "gridFooter",
+    rowStyle: "gridRow",
+    alternatingRowStyle: "gridAltRow",
+    columns: grid.Columns(
+        grid.Column("MaSP", "Mã SP"),
+        grid.Column("TenSP", "Tên sản phẩm"),
+        grid.Column("CauHinh", "Cấu hình máy", format: x => Html.Raw(x.CauHinh)),
+        grid.Column("HinhAnh", "Hình ảnh", format: x => Html.Raw("<img src=\"../Content/images/" + x.HinhAnh + "\" style=\"width: 300px; height: 250px; \">")),
+        grid.Column(format: x => Html.ActionLink("Sửa", "ChinhSua", new { id = x.MaSP })),
+        grid.Column(format: x => Html.ActionLink("Xóa", "Xoa", new { id = x.MaSP }))
+        )
+    )
+
+<style>
+    .divTable {
+        width: 100%;
+        border: 1px solid #45484B;
+    }
+
+        .divTable td, th {
+            border: 1px solid #45484B;
+        }
+
+    .gridHeader {
+        background: #1BB230;
+    }
+
+        .gridHeader th a {
+            color: #ffff;
+        }
+
+    .gridFooter {
+        font-weight: bold;
+        color: #01010B;
+    }
+    #linkTaoSPMoi {
+        padding: 10px 16px;
+        border: 1px solid #1BB230;
+        background: #1BB230;
+        border-radius: 5px;
+        color: #ffff;
+    }
+        #linkTaoSPMoi:hover {
+            border: 1px solid #066313;
+            background: #066313;
+        }
+</style>

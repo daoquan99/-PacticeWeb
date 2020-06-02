@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "DemoAjax";
+    Layout = "~/Views/Layout/HomeLayout.cshtml";
+}
+@*load ajax theo action link*@
+
+@*@Ajax.ActionLink("Load Ajax MVC", "LoadAjaxActionLink", new AjaxOptions
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "KetQua",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "divLoading"
+    })*@
+@*load ajax theo beginform*@
+@*@using (Ajax.BeginForm("LoadAjaxBeginForm", new AjaxOptions
+    {
+        HttpMethod = "post",
+        UpdateTargetId = "KetQua",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "divLoading"
+    }))
+    {
+        <input type="text" name="txt1" />
+        <input type="submit" value="Submit" />
+    }*@
+
+@*<div style="margin:10px;">
+        <input type="text" id="txt1" /><br />
+        <input type="text" id="txt2" /><br />
+        <input type="button" id="button" value="Submit Jquery Ajax" />
+    <div id="divLoading" style="height:50px;display:none">
+        <img src="~/Content/images/load.gif" />
+    </div>
+    <div id="KetQua" style="height:200px">
+
+    </div>
+</div>*@
+
+@*load ajax theo Jquery*@
+@*<script>
+        $("#button").click(function () {
+            var ts1 = $("#txt1").val();
+            var ts2 = $("#txt2").val();
+            $("#divLoading").show();
+
+            $.ajax({
+                type: "GET",
+                data: { a: ts1, b: ts2 },
+                url: "LoadAjaxJquery",
+                success: function (KetQua) {
+                    $("#divLoading").hide();
+                    $("#KetQua").html(KetQua);
+                }
+            })
+        })
+    </script>*@
+
+@*load partial view ajax*@
+
+
+
+<div class="container">
+    @Ajax.ActionLink("Load Ajax MVC", "SanPhamPartial", new AjaxOptions
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "KetQua",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "divLoading"
+    })
+
+    <div id="divLoading" style="height:50px;display:none">
+        <img src="~/Content/images/load.gif" />
+    </div>
+    <div id="KetQua" style="height:200px">
+
+    </div>
+</div>

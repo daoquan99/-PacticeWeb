@@ -1,0 +1,71 @@
+﻿@using WebsiteBanHang.Models;
+
+<div class="header-top">
+    <div class="container">
+        <div class="search">
+            @*Tạo form submit về action tìm kiếm*@
+            @using (Html.BeginForm("LayTuKhoaTimKiem", "TimKiem"))
+            {
+                <input type="text" name="sTuKhoa" placeholder="Nhập tên sản phẩm">
+                <input type="submit" value="Tìm kiếm">
+            }
+
+        </div>
+        <div class="header-left">
+            <ul>
+                @if (Session["TaiKhoan"] != null && Session["TaiKhoan"].ToString() != "")
+            {
+                ThanhVien tv = (ThanhVien)Session["TaiKhoan"];
+                    <li style="margin:0 2px; display:inline; margin: 0 10px;color: #ffff;">Chào @tv.HoTen</li>
+                    @Html.ActionLink("Đăng xuất", "DangXuat", "Home")
+                }
+                else
+                {
+                    <li style="display:inline;"><a class="lock" href="#" id="btnDangNhap">Đăng Nhâp</a></li>
+                    @*<li style="display:inline;"><a class="lock" href="~/Views/Home/DangKy.cshtml">Đăng ký</a></li>*@
+                    <li style="display:inline;">@Html.ActionLink("Đăng ký","DangKy","Home")</li>
+                }
+
+            </ul>
+            @Html.Action("GioHangPartial","GioHang")
+            <div class="clearfix"> </div>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+
+<link href="~/Content/cssLogin/style_Login.css" rel="stylesheet" />
+<div>
+    <div id="popup_login">
+        <div class="login-form" style="height:380px">
+            <div style="clear:both;text-align:right;">
+                <span id="close_form" class="btn btn-danger">X</span>
+            </div>
+            <h2>Đăng nhập</h2>
+            <div class="form-info">
+                @using (Ajax.BeginForm("DangNhap", "Home",new AjaxOptions{InsertionMode=InsertionMode.Replace,UpdateTargetId="ThongBao" }))
+                {
+                    <input type="text" class="email" name="txtTenDangNhap" placeholder="Tài Khoản" required="" />
+                    <input type="password" class="password" name="txtMatKhau" placeholder="Mật Khẩu" required="" />
+                    <p><a href="#">Quên tài khoản?</a></p>
+                    <h2 style="font-weight:bold;color:#ffff" id="ThongBao"></h2>
+                    <ul class="login-buttons">
+                        <li><input type="submit" class="btnDangNhap" value="Đăng Nhập" /></li>
+                        <li><a href="#" class="hvr-sweep-to-left">Đăng ký</a></li>
+                        
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //hiển thị
+    $("#btnDangNhap").click(function () {
+        $("#popup_login").show();
+    })
+    //đóng
+    $("#close_form").click(function () {
+        $("#popup_login").hide();
+    })
+</script>
